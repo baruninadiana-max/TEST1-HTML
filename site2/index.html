@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hat Shop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            line-height: 1.6;
+            color: #333;
+            background: white;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 30px rgba(0,0,0,0.2);
+        }
+
+        /* Навигация */
+        nav {
+            background: #8B0000;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
+            justify-content: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+
+        nav a:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        nav a.active {
+            background: rgba(255,255,255,0.3);
+            border-bottom: 2px solid white;
+        }
+
+        /* Заголовки */
+        h1, h2, h3 {
+            color: #8B0000;
+            margin: 1.5rem 0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+            padding: 2rem;
+            background: #8B0000;
+            color: white;
+        }
+
+        h2 {
+            font-size: 2rem;
+            border-left: 5px solid #8B0000;
+            padding-left: 1rem;
+        }
+
+        /* Секции */
+        section {
+            padding: 2rem;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Таблица */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background-color: rgba(255, 192, 203, 0.3);
+        }
+
+        table th, table td {
+            border: 2px solid #8B0000;
+            padding: 1rem;
+            text-align: left;
+        }
+
+        table th {
+            background: #8B0000;
+            color: white;
+            font-weight: bold;
+        }
+
+        table tr:hover {
+            background: rgba(139, 0, 0, 0.1);
+        }
+
+        /* Изображения */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .product-card {
+            border: 2px solid #8B0000;
+            border-radius: 10px;
+            padding: 1rem;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(139, 0, 0, 0.3);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .thumbnail {
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .thumbnail:hover {
+            opacity: 0.7;
+        }
+
+        /* Списки */
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+        }
+
+        .main-category {
+            font-weight: bold;
+            font-style: italic;
+            font-size: 1.2em;
+        }
+
+        /* Формы */
+        form {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            border: 2px solid #8B0000;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #8B0000;
+            font-weight: 600;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        input[type="date"],
+        input[type="password"],
+        textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #8B0000;
+        }
+
+        button {
+            background: #8B0000;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 0, 0, 0.4);
+        }
+
+        .radio-group, .checkbox-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* Внутренняя навигация */
+        .internal-nav {
+            background: #f0f0f0;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .internal-nav a {
+            color: #8B0000;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border: 2px solid #8B0000;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .internal-nav a:hover {
+            background: #8B0000;
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Навигация -->
+        <nav>
+            <ul>
+                <li><a href="#home" onclick="showPage('home')" class="nav-link active">Главная</a></li>
+                <li><a href="#catalog" onclick="showPage('catalog')" class="nav-link">Каталог</a></li>
+                <li><a href="#about" onclick="showPage('about')" class="nav-link">О нас</a></li>
+                <li><a href="#delivery" onclick="showPage('delivery')" class="nav-link">Доставка</a></li>
+                <li><a href="#contacts" onclick="showPage('contacts')" class="nav-link">Контакты</a></li>
+                <li><a href="#order" onclick="showPage('order')" class="nav-link">Заказать</a></li>
+                <li><a href="https://www.google.com" target="_blank">Google</a></li>
+                <li><a href="#catalog" onclick="showPage('catalog')"><img src="ushanka.jpg" alt="Ушанка" style="height: 50px; border-radius: 5px; vertical-align: middle;"></a></li>
+            </ul>
+        </nav>
+
+        <!-- Страница: Главная -->
+        <div id="home" class="page active">
+            <h1>Hat Shop - Магазин стильных шапок</h1>
+            
+            <section>
+                <div class="internal-nav">
+                    <a href="#section1">Раздел 1: Популярные модели</a>
+                    <a href="#section2">Раздел 2: Виды шапок в наличии</a>
+                </div>
+
+                <h2 id="section1">Популярные модели этого сезона</h2>
+
+                <div class="product-grid">
+                    <div class="product-card">
+                        <a href="#" onclick="openLargeImage('moncler.jpg'); return false;">
+                            <img src="moncler.jpg" alt="Moncler" class="thumbnail">
+                        </a>
+                        <h3>Moncler</h3>
+                    </div>
+                    <div class="product-card">
+                        <a href="#" onclick="openLargeImage('arcteryx.jpg'); return false;">
+                            <img src="arcteryx.jpg" alt="Arcteryx" class="thumbnail">
+                        </a>
+                        <h3>Arcteryx</h3>
+                    </div>
+                    <div class="product-card">
+                        <a href="#" onclick="openLargeImage('louis_vuitton.jpg'); return false;">
+                            <img src="louis_vuitton.jpg" alt="Louis Vuitton" class="thumbnail">
+                        </a>
+                        <h3>Louis Vuitton</h3>
+                    </div>
+                </div>
+
+                <h2 id="section2">Виды шапок в наличии</h2>
+                
+                <ul>
+                    <li>
+                        <span class="main-category">Зимние шапки</span>
+                        <ul>
+                            <li>Шерстяные</li>
+                            <li>С мехом</li>
+                            <li>Ушанки</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="main-category">Летние головные уборы</span>
+                        <ul>
+                            <li>Бейсболки</li>
+                            <li>Панамы</li>
+                            <li>Кепки</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="main-category">Демисезонные шапки</span>
+                        <ul>
+                            <li>Береты</li>
+                            <li>Повязки на уши</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h3>Топ-5 моделей этого года:</h3>
+                <ol>
+                    <li>Бини с помпоном - 5000 руб</li>
+                    <li>Кепка Nike - 3500 руб</li>
+                    <li>Ушанка с овечьей шерстью - 10000 руб</li>
+                    <li>Берет бардо - 4000 руб</li>
+                    <li>Вязаная шапка ручной работы - 7900 руб</li>
+                </ol>
+
+                <div class="internal-nav">
+                    <a href="#home">Вернуться к началу</a>
+                </div>
+            </section>
+        </div>
+
+        <!-- Страница: Каталог -->
+        <div id="catalog" class="page">
+            <h1>Каталог товаров</h1>
+            
+            <section>
+                <h2>Расценка наших популярных шапок</h2>
+                
+                <table style="width: 100%; table-layout: fixed; word-wrap: break-word;">
+                    <tr>
+                        <th style="background-color: #FFE4E1; width: 25%; text-align: center; padding: 15px; color: #000; word-wrap: break-word;">Логотип, название</th>
+                        <th style="background-color: #FFE4E1; width: 45%; text-align: center; padding: 15px; color: #000;">
+                            <img src="ushanka.jpg" alt="Мемо" style="height: 60px; border-radius: 5px;">
+                        </th>
+                        <th rowspan="2" style="background-color: #FFE4E1; width: 30%; vertical-align: middle; padding: 15px; text-align: center; color: #000; word-wrap: break-word;">
+                            <a href="#order" onclick="showPage('order')" style="color: #000; text-decoration: none; font-weight: bold; font-size: 1.2em;">Заказать</a>
+                        </th>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" style="background-color: #FFE4E1; vertical-align: top; padding: 20px; font-size: 0.9em; color: #000; word-wrap: break-word; overflow-wrap: break-word;">
+                            <strong>Материал:</strong> Шерсть 100%<br><br>
+                            <strong>Цвет:</strong> Черный, Серый<br><br>
+                            <strong>Размер:</strong> Универсальный<br><br>
+                            <strong>Уход:</strong> Ручная стирка<br><br>
+                            <strong>Температура:</strong> до -30°C
+                        </td>
+                        <td style="background-color: #FFE4E1; text-align: center; vertical-align: middle; padding: 20px; color: #000; word-wrap: break-word;">
+                            <a href="#" onclick="openLargeImage('moncler.jpg'); return false;">
+                                <img src="moncler.jpg" alt="Moncler" style="width: 140px; border-radius: 5px; cursor: pointer; display: block; margin: 0 auto 10px auto;">
+                            </a>
+                            <strong style="font-size: 1.1em;">Moncler Classic</strong><br>
+                            <span style="font-size: 1.1em;">20000 руб</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="background-color: #FFE4E1; text-align: center; padding: 15px; color: #000; vertical-align: middle; word-wrap: break-word; overflow-wrap: break-word; font-size: 0.95em; line-height: 1.4;">
+                            Премиальная зимняя шапка Moncler Classic из натуральной шерсти. Классическая вязка с фирменным логотипом бренда.<br>
+                            <em>Производитель: Moncler S.p.A, Италия. Коллекция 2025.</em>
+                        </td>
+                    </tr>
+                </table>
+
+            </section>
+        </div>
+
+        <!-- Страница: О нас -->
+        <div id="about" class="page">
+            <h1>О нашем магазине</h1>
+            
+            <section>
+                <h2>История компании</h2>
+                <p>Hat Shop работает на рынке с 2015 года. За это время мы завоевали доверие тысяч клиентов по всей стране. Всё началось с одной холодной осенней прогулки нашего владельца. Ветер пронизывал насквозь, а единственная шапка, купленная накануне, казалась безликой и скучной.
+«Почему нельзя найти что-то красивое и тёплое одновременно?» — эта мысль изменила всё.
+Вернувшись домой, дизайнер достал старую вязальную машину. К утру появилась первая шапка — ярко-синяя, с необычным орнаментом. На следующей прогулке три незнакомца спросили, где купить такую же.
+Через месяц маленькая квартира превратилась в мастерскую. Каждая шапка создавалась как произведение искусства.
+Так родился магазин, доказавший: даже обычная вещь может стать особенной, если вложить в неё душу.</p>
+
+                <h3>Наши преимущества:</h3>
+                <ol>
+                    <li>Качественные материалы от проверенных поставщиков</li>
+                    <li>Широкий ассортимент на любой сезон</li>
+                    <li>Доступные цены</li>
+                    <li>Быстрая доставка</li>
+                    <li>Гарантия на все товары</li>
+                </ol>
+
+                <h3>Материалы наших шапок:</h3>
+                <ul>
+                    <li>Натуральная шерсть
+                        <ul>
+                            <li>Мериносовая шерсть</li>
+                            <li>Альпака</li>
+                            <li>Кашемир</li>
+                        </ul>
+                    </li>
+                    <li>Синтетические материалы
+                        <ul>
+                            <li>Акрил</li>
+                            <li>Полиэстер</li>
+                        </ul>
+                    </li>
+                    <li>Смешанные ткани</li>
+                </ul>
+            </section>
+        </div>
+
+        <!-- Страница: Доставка -->
+        <div id="delivery" class="page">
+            <h1>Доставка и оплата</h1>
+            
+            <section>
+                <div class="internal-nav">
+                    <a href="#delivery-info">Информация о доставке</a>
+                    <a href="#payment-info">Способы оплаты</a>
+                </div>
+
+                <h2 id="delivery-info">Условия доставки</h2>
+                <p>Мы доставляем товары по всей России различными способами.</p>
+
+                <h3>Варианты доставки:</h3>
+                <ol>
+                    <li>Курьерская доставка по Москве - 1-2 дня (300 руб)</li>
+                    <li>Почта России - 5-14 дней (от 200 руб)</li>
+                    <li>СДЭК - 3-7 дней (от 350 руб)</li>
+                    <li>Boxberry - 3-7 дней (от 300 руб)</li>
+                    <li>Самовывоз из магазина - бесплатно</li>
+                </ol>
+
+                <h2 id="payment-info">Способы оплаты</h2>
+                <ul>
+                    <li>Наличными курьеру</li>
+                    <li>Банковской картой онлайн</li>
+                    <li>Электронные кошельки</li>
+                    <li>Банковский перевод по номеру телефона</li>
+                </ul>
+
+                <div class="internal-nav">
+                    <a href="#delivery">Вернуться к началу</a>
+                </div>
+            </section>
+        </div>
+
+        <!-- Страница: Контакты -->
+        <div id="contacts" class="page">
+            <h1>Контактная информация</h1>
+            
+            <section>
+                <h2>Свяжитесь с нами</h2>
+                
+                <form action="https://www.bing.com/search?q" method="POST" target="_blank">
+                    <h3>Форма обратной связи</h3>
+                    
+                    <div class="form-group">
+                        <label for="lastname">Фамилия *</label>
+                        <input type="text" id="lastname" name="lastname" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="firstname">Имя *</label>
+                        <input type="text" id="firstname" name="firstname" required>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="phone">Мобильный телефон *</label>
+                        <input type="tel" id="phone" name="phone" pattern="[0-9]{10,11}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Электронная почта *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="message">Сообщение</label>
+                        <textarea id="message" name="message" rows="5"></textarea>
+                    </div>
+
+                    <button type="submit">Отправить</button>
+                </form>
+
+                <h3>Наши контакты:</h3>
+                <ul>
+                    <li>Адрес: г. Москва, ул. Примерная, д. 123</li>
+                    <li>Телефон: +7 (495) 123-45-67</li>
+                    <li>Email: info@hatshop.ru</li>
+                    <li>Режим работы: Пн-Пт 9:00-20:00, Сб-Вс 10:00-18:00</li>
+                </ul>
+
+                <p>Также вы можете найти нас в социальных сетях: <a href="https://www.facebook.com" target="_blank" style="color: #8B0000;">Facebook</a>, <a href="https://www.instagram.com" target="_blank" style="color: #8B0000;">Instagram</a></p>
+            </section>
+        </div>
+
+        <!-- Страница: Заказ -->
+        <div id="order" class="page">
+            <h1>Оформление заказа</h1>
+            
+            <section>
+                <form action="https://www.bing.com/search?q" method="POST" target="_blank">
+                    <h3>Форма заказа</h3>
+                    
+                    <input type="hidden" name="form_type" value="order">
+                    <input type="hidden" name="website" value="hatshop.ru">
+
+                    <div class="form-group">
+                        <label for="customer_name">ФИО покупателя *</label>
+                        <input type="text" id="customer_name" name="customer_name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customer_phone">Контактный телефон *</label>
+                        <input type="tel" id="customer_phone" name="customer_phone" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="customer_email">Email</label>
+                        <input type="email" id="customer_email" name="customer_email">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Выберите товар *</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="product" value="moncler" required> Moncler (15000 руб)</label>
+                            <label><input type="radio" name="product" value="arcteryx"> Arcteryx (8000 руб)</label>
+                            <label><input type="radio" name="product" value="louis_vuitton"> Louis Vuitton (25000 руб)</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="promo_code">Промокод (если есть)</label>
+                        <input type="password" id="promo_code" name="promo_code">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Адрес доставки</label>
+                        <textarea id="address" name="address" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comment">Комментарий к заказу</label>
+                        <textarea id="comment" name="comment" rows="3"></textarea>
+                    </div>
+
+                    <button type="submit">Оформить заказ</button>
+                </form>
+
+                <h3>Информация о заказе:</h3>
+                <ul>
+                    <li>Минимальная сумма заказа - 1000 рублей</li>
+                    <li>Бесплатная доставка при заказе от 3000 рублей</li>
+                    <li>Возможен возврат в течение 14 дней</li>
+                </ul>
+            </section>
+        </div>
+
+
+    </div>
+
+    <script>
+        function showPage(pageId) {
+            // Скрываем все страницы
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Показываем выбранную страницу
+            document.getElementById(pageId).classList.add('active');
+            
+            // Обновляем активную ссылку в навигации
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => link.classList.remove('active'));
+            
+            const activeLink = document.querySelector(`a[href="#${pageId}"].nav-link`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+            
+            // Прокручиваем наверх
+            window.scrollTo(0, 0);
+        }
+
+        function openLargeImage(url) {
+            // Открываем большое изображение в новом окне
+            const width = 600;
+            const height = 400;
+            const left = (screen.width - width) / 2;
+            const top = (screen.height - height) / 2;
+            
+            const newWindow = window.open('', '_blank', `width=${width},height=${height},left=${left},top=${top}`);
+            newWindow.document.write(`
+                <html>
+                <head>
+                    <title>Просмотр изображения</title>
+                    <style>
+                        body { margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background: #000; }
+                        img { max-width: 100%; max-height: 100%; }
+                    </style>
+                </head>
+                <body>
+                    <img src="${url}" alt="Большое изображение">
+                </body>
+                </html>
+            `);
+        }
+
+        // Обработка закладок на странице
+        document.addEventListener('DOMContentLoaded', function() {
+            const hash = window.location.hash;
+            if (hash) {
+                const pageId = hash.substring(1);
+                const page = document.getElementById(pageId);
+                if (page && page.classList.contains('page')) {
+                    showPage(pageId);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
