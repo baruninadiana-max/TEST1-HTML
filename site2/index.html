@@ -487,36 +487,53 @@
             <section>
                 <h2>Свяжитесь с нами</h2>
                 
-                <form action="https://www.bing.com/search?q" method="POST" target="_blank">
+                <form action="https://www.bing.com/search" method="GET" target="_blank">
                     <h3>Форма обратной связи</h3>
+                    
+                    <input type="hidden" name="form_type" value="feedback">
+                    <input type="hidden" name="source" value="hatshop_contacts">
                     
                     <div class="form-group">
                         <label for="lastname">Фамилия *</label>
-                        <input type="text" id="lastname" name="lastname" required>
+                        <input type="text" id="lastname" name="lastname" value="Иванов" required>
                     </div>
 
                     <div class="form-group">
                         <label for="firstname">Имя *</label>
-                        <input type="text" id="firstname" name="firstname" required>
+                        <input type="text" id="firstname" name="firstname" value="Иван" required>
                     </div>
-
-
 
                     <div class="form-group">
                         <label for="phone">Мобильный телефон *</label>
-                        <input type="tel" id="phone" name="phone" pattern="[0-9]{10,11}" required>
+                        <input type="tel" id="phone" name="phone" pattern="[0-9]{10,11}" value="89991234567" required>
                     </div>
 
                     <div class="form-group">
                         <label for="email">Электронная почта *</label>
-                        <input type="email" id="email" name="email" required>
+                        <input type="email" id="email" name="email" value="ivanov@example.com" required>
                     </div>
 
+                    <div class="form-group">
+                        <label>Тип обращения *</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="feedback_type" value="question" checked required> Вопрос</label>
+                            <label><input type="radio" name="feedback_type" value="complaint"> Жалоба</label>
+                            <label><input type="radio" name="feedback_type" value="suggestion"> Предложение</label>
+                        </div>
+                    </div>
 
+                    <div class="form-group">
+                        <label>Интересующие категории товаров</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" name="category_winter" value="yes" checked> Зимние шапки</label>
+                            <label><input type="checkbox" name="category_summer" value="yes"> Летние головные уборы</label>
+                            <label><input type="checkbox" name="category_demi" value="yes"> Демисезонные</label>
+                        </div>
+                    </div>
 
                     <div class="form-group">
                         <label for="message">Сообщение</label>
-                        <textarea id="message" name="message" rows="5"></textarea>
+                        <textarea id="message" name="message" rows="5">Здравствуйте! Хочу уточнить информацию о доставке.</textarea>
                     </div>
 
                     <button type="submit">Отправить</button>
@@ -539,49 +556,64 @@
             <h1>Оформление заказа</h1>
             
             <section>
-                <form action="https://www.bing.com/search?q" method="POST" target="_blank">
+                <form action="https://www.bing.com/search" method="GET" target="_blank">
                     <h3>Форма заказа</h3>
                     
                     <input type="hidden" name="form_type" value="order">
                     <input type="hidden" name="website" value="hatshop.ru">
+                    <input type="hidden" name="order_source" value="website_form">
 
                     <div class="form-group">
                         <label for="customer_name">ФИО покупателя *</label>
-                        <input type="text" id="customer_name" name="customer_name" required>
+                        <input type="text" id="customer_name" name="customer_name" value="Петров Петр Петрович" required>
                     </div>
 
                     <div class="form-group">
                         <label for="customer_phone">Контактный телефон *</label>
-                        <input type="tel" id="customer_phone" name="customer_phone" required>
+                        <input type="tel" id="customer_phone" name="customer_phone" value="89167654321" required>
                     </div>
 
                     <div class="form-group">
                         <label for="customer_email">Email</label>
-                        <input type="email" id="customer_email" name="customer_email">
+                        <input type="email" id="customer_email" name="customer_email" value="petrov@example.com">
                     </div>
 
                     <div class="form-group">
                         <label>Выберите товар *</label>
                         <div class="radio-group">
-                            <label><input type="radio" name="product" value="moncler" required> Moncler (15000 руб)</label>
+                            <label><input type="radio" name="product" value="moncler" checked required> Moncler (15000 руб)</label>
                             <label><input type="radio" name="product" value="arcteryx"> Arcteryx (8000 руб)</label>
                             <label><input type="radio" name="product" value="louis_vuitton"> Louis Vuitton (25000 руб)</label>
                         </div>
                     </div>
 
                     <div class="form-group">
+                        <label for="quantity">Количество *</label>
+                        <input type="number" id="quantity" name="quantity" min="1" max="10" value="1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Дополнительные услуги</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" name="gift_wrap" value="yes" checked> Подарочная упаковка (+300 руб)</label>
+                            <label><input type="checkbox" name="express_delivery" value="yes"> Срочная доставка (+500 руб)</label>
+                            <label><input type="checkbox" name="insurance" value="yes"> Страхование товара (+200 руб)</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         <label for="promo_code">Промокод (если есть)</label>
-                        <input type="password" id="promo_code" name="promo_code">
+                        <input type="password" id="promo_code" name="promo_code" value="WINTER2025">
                     </div>
 
                     <div class="form-group">
                         <label for="address">Адрес доставки</label>
-                        <textarea id="address" name="address" rows="3"></textarea>
+                        <textarea id="address" name="address" rows="3">Москва, ул. Ленина, д. 10, кв. 25</textarea>
                     </div>
 
                     <div class="form-group">
                         <label for="comment">Комментарий к заказу</label>
-                        <textarea id="comment" name="comment" rows="3"></textarea>
+                        <textarea id="comment" name="comment" rows="3">Прошу позвонить перед доставкой за час.</textarea>
                     </div>
 
                     <button type="submit">Оформить заказ</button>
